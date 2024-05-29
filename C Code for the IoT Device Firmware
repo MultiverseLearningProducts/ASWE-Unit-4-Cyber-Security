@@ -1,0 +1,19 @@
+#include <stdio.h>
+#include <string.h>
+
+void process_sensor_name(char *sensor_name) {
+    char buffer[32];  // Fixed-size buffer for sensor name
+    // Vulnerable to buffer overflow
+    strcpy(buffer, sensor_name);
+    printf("Sensor name processed: %s\n", buffer);
+}
+
+int main() {
+    char sensor_name[100];
+    printf("Enter sensor name: ");
+    fgets(sensor_name, sizeof(sensor_name), stdin);
+    // Remove newline character added by fgets
+    sensor_name[strcspn(sensor_name, "\n")] = 0;
+    process_sensor_name(sensor_name);
+    return 0;
+}
